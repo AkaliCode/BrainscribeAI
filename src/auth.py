@@ -1,12 +1,9 @@
 
-from os import access
-from typing import Tuple
 from flask import Blueprint,jsonify, request,abort
-from markupsafe import re
 from werkzeug.security import check_password_hash,generate_password_hash
 import re
 import validators
-from src.database import User,db
+from src.database.user import User,db
 from flask_jwt_extended import create_refresh_token,create_access_token, jwt_required, get_jwt_identity
 
 auth = Blueprint('auth',__name__,url_prefix='/api/v1/auth')
