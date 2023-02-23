@@ -1,9 +1,15 @@
+##### NOT IN USE #####
+
 import os
-
 from google.cloud.sql.connector import Connector, IPTypes
+from flask_sqlalchemy import SQLAlchemy as BaseSQLAlchemy
 import pymysql
-
 import sqlalchemy
+
+class SQLAlchemy(BaseSQLAlchemy):
+    def create_engine(self, uri, **kwargs):
+        kwargs['pool_pre_ping'] = True
+        return connect_with_connector()
 
 
 def connect_with_connector() -> sqlalchemy.engine.base.Engine:

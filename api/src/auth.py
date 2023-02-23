@@ -3,7 +3,8 @@ from flask import Blueprint,jsonify, request,abort
 from werkzeug.security import check_password_hash,generate_password_hash
 import re
 import validators
-from src.database.user import User,db
+from src.data.user import User
+from src.data.database import DB
 from flask_jwt_extended import create_refresh_token,create_access_token, jwt_required, get_jwt_identity
 
 auth = Blueprint('auth',__name__,url_prefix='/api/v1/auth')
@@ -52,8 +53,8 @@ def register():
     pw_hash = generate_password_hash(password)
     
     user = User(username=username,email=email,password=pw_hash)
-    db.session.add(user)
-    db.session.commit()
+    DB.session.add(user)
+    DB.session.commit()
     
     return {'message':'User created',
             
