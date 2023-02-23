@@ -1,27 +1,26 @@
 import os
 from flask import Flask, redirect
 from src.auth import auth
-from src.database.user import db,Bookmark
-from flask_sqlalchemy import SQLAlchemy
-from src.database.connector import connect_with_connector
+from src.data.database import DB
+from src.data.user import Bookmark
 from flask_jwt_extended import JWTManager,jwt_required,get_jwt_identity
 
-def create_app(test_config = None):
-    
-    app = Flask(__name__,instance_relative_config=True)
-    
+def create_app(test_config=None):
+
+    app = Flask(__name__, instance_relative_config=True)
+
     if test_config is None:
         app.config.from_mapping(
-            SECRET_KEY = os.environ.get('SECRET_KEY'),
-            SQLALCHEMY_DATABASE_URI= os.environ.get('SQLALCHEMY_DATABASE_URI'),
+            SECRET_KEY=os.environ.get("SECRET_KEY"),
+            SQLALCHEMY_DATABASE_URI=os.environ.get("SQLALCHEMY_DB_URI"),
             SQLALCHEMY_TRACK_MODIFICATIONS=False,
-            JWT_SECRET_KEY=os.environ.get('JWT_SECRET_KEY'))
-        
+            JWT_SECRET_KEY=os.environ.get('JWT_SECRET_KEY'),
+        )
     else:
         app.config.from_mapping(test_config)
-    
-    db.app = app
-    db.init_app(app)
+
+    DB.app = app
+    DB.init_app(app)
     
     JWTManager(app)
     
@@ -33,7 +32,7 @@ def create_app(test_config = None):
         
         bookmark.visits +=1
         
-        db.session.commit()
+        DB.session.commit()
         
         return redirect(bookmark.url)
                
