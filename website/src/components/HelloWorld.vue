@@ -8,9 +8,8 @@ defineProps<{
   <div class="greetings">
     <h1 class="green">{{ msg }}</h1>
     <h3>
-      You’ve successfully created a project with
-      <a href="https://vitejs.dev/" target="_blank" rel="noopener">Vite</a> +
-      <a href="https://vuejs.org/" target="_blank" rel="noopener">Vue 3</a>.
+      Fabi ist eigentlich ein ganz lieber
+      <a href="https://googlethatforyou.com?q=ist%20fabi%20ein%20lieber%3F" target="_blank" rel="noopener">Quelle</a>
     </h3>
   </div>
 </template>
