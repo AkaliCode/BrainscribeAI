@@ -36,10 +36,10 @@
 
       }
     },
-    // Es wird onCreate der gesavte link gegetted damit er dann gesetzt 
+    // Es wird onCreate der gesamte link gegetted damit er dann gesetzt 
     // und displayed werden kann
     created(): void {
-        this.savedlink = localStorage.getItem("savedlink") || "";
+        this.savedlink = localStorage.getItem("savedlink") || ""; // || "" ist nötig falls der localStorage leer ist
     },
     methods: {
       submit() {
