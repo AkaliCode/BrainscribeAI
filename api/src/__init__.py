@@ -1,6 +1,7 @@
 import os
 from flask import Flask, redirect
 from src.auth import auth
+from src.generator import generator as gen
 from src.data.database import DB
 from src.data.user import Bookmark
 from flask_jwt_extended import JWTManager,jwt_required,get_jwt_identity
@@ -25,6 +26,7 @@ def create_app(test_config=None):
     JWTManager(app)
     
     app.register_blueprint(auth)
+    app.register_blueprint(gen)
     
     @app.get('/<short_url>')
     def redirect_to(short_url):
