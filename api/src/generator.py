@@ -11,31 +11,22 @@ openai.organization = "org-qzx7KtwC7edug82IJeee0SmF"
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 def transcribe_video(video_id):
-    transcript = YouTubeTranscriptApi.get_transcript(video_id)
+    transcript_list = YouTubeTranscriptApi.list_transcripts(video_id)
+
+    languages = list(transcript_list._manually_created_transcripts) + list(transcript_list._generated_transcripts)
+
+    if languages == []:
+        abort(404, "No transcript found for video")
+
+    transcript = transcript_list.find_transcript(languages)
+
     formatter = TextFormatter()
-    return formatter.format_transcript(transcript)
+    return formatter.format_transcript(transcript.fetch())
 
-def generate_response(text_type, transcript):
+def generate_response_gpt35(text_type, transcript):
     prompt = f"Generate a {text_type} based on the following transcript:\n{transcript}"
-    print(prompt)
-    response = openai.Completion.create(
-        engine="text-davinci-003",
-        prompt=prompt,
-        temperature=0.7,
-        max_tokens=3000,
-    )
     
-    return response
-
-def generate_bulletpoints(transcript):
-    prompt = f"Generate a list of key topics based on the following transcript:\n{transcript}"
-    print(prompt)
-    response = openai.Completion.create(
-        engine="text-babbage-001",
-        prompt=prompt,
-        temperature=0.7,
-        max_tokens=2000,
-    )
+    response = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=[{"role": "user", "content": prompt}])
     
     return response
 
@@ -44,15 +35,21 @@ def generate():
     text_type = request.json['text_type']
     video_id = request.json['video_id']
 
-    #total_cost += engine_price[model_name]*get_tokens_consumed(response)
-
     print(video_id)
     print(text_type)
 
     transcript = transcribe_video(video_id)
-    response = generate_response(text_type, transcript)
+    response = generate_response_gpt35(text_type, transcript)
+
+    # get the number of tokens used to generate the response
+    tokens_used = response.usage.total_tokens
+    print(f"Tokens used: {tokens_used}")
+
 
     return jsonify({
-        'text': response.choices[0].text,
+        'text': response.choices[0].message.content,
+        'total_tokens': response.usage.total_tokens,
+        'completion_tokens' : response.usage.completion_tokens,
+        'prompt_tokens': response.usage.prompt_tokens,
     })
     
