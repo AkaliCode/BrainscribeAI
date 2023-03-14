@@ -1,5 +1,6 @@
 import os
 import openai
+from pytube import YouTube, extract
 from flask import Blueprint, request, jsonify, abort
 from youtube_transcript_api import YouTubeTranscriptApi
 from youtube_transcript_api.formatters import TextFormatter
@@ -10,49 +11,68 @@ generator = Blueprint('generator',__name__, url_prefix='/api/v1/generator')
 openai.organization = "org-qzx7KtwC7edug82IJeee0SmF"
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
+def get_video_id(url):
+
+    try: 
+        yt = YouTube(url)
+        yt.check_availability()
+
+    except:
+        abort(404, "Video not available")
+
+    return extract.video_id(url)
+
 def transcribe_video(video_id):
-    transcript = YouTubeTranscriptApi.get_transcript(video_id)
+
+    try:
+        transcript_list = YouTubeTranscriptApi.list_transcripts(video_id)
+    except:
+        abort(404, "No transcript found for video")
+
+    languages = list(transcript_list._manually_created_transcripts) + list(transcript_list._generated_transcripts)
+    transcript = transcript_list.find_transcript(languages)
+
     formatter = TextFormatter()
-    return formatter.format_transcript(transcript)
+    transcript_raw = formatter.format_transcript(transcript.fetch())
 
-def generate_response(text_type, transcript):
-    prompt = f"Generate a {text_type} based on the following transcript:\n{transcript}"
-    print(prompt)
-    response = openai.Completion.create(
-        engine="text-davinci-003",
-        prompt=prompt,
-        temperature=0.7,
-        max_tokens=3000,
-    )
-    
-    return response
+    if len(transcript_raw) > 10000:
+        abort(413, "Transcript too long")
 
-def generate_bulletpoints(transcript):
-    prompt = f"Generate a list of key topics based on the following transcript:\n{transcript}"
-    print(prompt)
-    response = openai.Completion.create(
-        engine="text-babbage-001",
-        prompt=prompt,
-        temperature=0.7,
-        max_tokens=2000,
-    )
-    
-    return response
+    return transcript_raw
+
+def generate_response_gpt35(text_type, transcript, language):
+
+    prompt = f"Generate a {text_type} in {language} based on the following transcript:\n{transcript}"
+
+    return openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=[{"role": "user", "content": prompt}])
 
 @generator.post('/generate')
 def generate():
+
     text_type = request.json['text_type']
-    video_id = request.json['video_id']
+    video_url = request.json['video_url']
+    language = request.json['language']
 
-    #total_cost += engine_price[model_name]*get_tokens_consumed(response)
-
-    print(video_id)
-    print(text_type)
-
+    video_id = get_video_id(video_url)
     transcript = transcribe_video(video_id)
-    response = generate_response(text_type, transcript)
+    response = generate_response_gpt35(text_type, transcript, language)
 
     return jsonify({
-        'text': response.choices[0].text,
-    })
+        'video_url': video_url,
+        'text': response.choices[0].message.content,
+        'total_tokens': response.usage.total_tokens,
+        'completion_tokens' : response.usage.completion_tokens,
+        'prompt_tokens': response.usage.prompt_tokens,
+    }),200
+
+@generator.post('/validate-video')
+def validate():
+
+    video_url = request.json['video_url']
+
+    get_video_id(video_url) # will abort if video is not available
     
+    return jsonify({
+        'message': 'Video is valid',
+        'video_url': video_url,
+    }),200

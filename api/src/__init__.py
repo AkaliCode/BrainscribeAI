@@ -1,5 +1,5 @@
 import os
-from flask import Flask, redirect
+from flask import Flask, jsonify, redirect
 from src.auth import auth
 from src.generator import generator as gen
 from src.data.database import DB
@@ -41,10 +41,14 @@ def create_app(test_config=None):
 
     @app.errorhandler(404)
     def error404(e):
-        return {'error':'404 not found'},40
+        return jsonify({'message': e.description}),404
     @app.errorhandler(500)
     def error500(e):
-        return {'error':'Something went wrong'},500
+        return jsonify({'message':'Something went wrong'}),500
+    
+    @app.errorhandler(413)
+    def error413(e):
+        return jsonify({'message': e.description}),413
 
     return app
 
