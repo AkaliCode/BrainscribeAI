@@ -34,8 +34,8 @@
       return{
         link: "" as string,
         savedlink: "" as string,
-        video_id: "" as string,
         text_type: "" as string,
+        text_language: "" as string,
         output: "    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum." as string
 
       }
@@ -55,22 +55,10 @@
         localStorage.setItem("savedlink", this.link);
         this.savedlink = this.link;
         
-        // Hier wird der Link geparst und die Video ID extrahiert
-        const regex = /((?<=(v|e|V|vi)\/)|(?<=be\/)|(?<=(\?|\&)v=)|(?<=\/u\/\d+\/)|(?<=(\?|\&)vi=)|(?<=embed\/))([\w-]{11})/g;
-        const match = this.link.match(regex);
-        if (!match) { // Falls kein Match gefunden wurde
-          alert("Invalid Link");
-          return;
-        }
-        
-        this.video_id = match[0]; // Die Video ID ist das erste Match, kann nicht null sein
-        
-
-        alert("Video ID: " + this.video_id);
-        
-        axios.get("http://localhost:????/generate", {
+        axios.post("http://localhost:5000/generator/generate", {
           params: {
-            video_id: this.video_id,
+            language: this.text_language,
+            video_url: this.savedlink,
             text_type: this.text_type
           }
         }).then((response) => {
