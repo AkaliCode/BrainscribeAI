@@ -8,7 +8,7 @@ from flask_jwt_extended import create_access_token, create_refresh_token, jwt_re
 
 generator = Blueprint('generator',__name__, url_prefix='/api/v1/generator')
 
-openai.organization = "org-qzx7KtwC7edug82IJeee0SmF"
+openai.organization = os.getenv("OPENAI_ORGANIZATION")
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 def get_video_id(url):
@@ -21,7 +21,6 @@ def get_video_id(url):
         abort(404, "Video not available")
 
     return extract.video_id(url)
-
 def transcribe_video(video_id):
 
     try:
