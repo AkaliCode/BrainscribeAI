@@ -21,7 +21,6 @@ def get_video_id(url):
         abort(404, "Video not available")
 
     return extract.video_id(url)
-
 def transcribe_video(video_id):
 
     try:
