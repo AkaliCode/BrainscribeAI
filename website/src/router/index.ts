@@ -1,5 +1,6 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+
 /**
  * Hier sind alle Links zu setzen für die verschiedenen Views für den Router.
  */
