@@ -1,4 +1,5 @@
 import os
+from flask_cors import CORS
 from flask import Flask, jsonify, redirect
 from src.auth import auth
 from src.generator import generator as gen
@@ -9,6 +10,7 @@ from flask_jwt_extended import JWTManager,jwt_required,get_jwt_identity
 def create_app(test_config=None):
 
     app = Flask(__name__, instance_relative_config=True)
+    CORS(app)
 
     if test_config is None:
         app.config.from_mapping(
