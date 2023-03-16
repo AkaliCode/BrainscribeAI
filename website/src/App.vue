@@ -53,6 +53,10 @@ Hintergrundfarbe für die Webseite
 */
 body {
   background-color: #0f0f0f;
+  background-image: linear-gradient(135deg, Black 30%, rgba(84, 175, 232, 0.5));
+  background-size: 150%;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 /*
