@@ -27,7 +27,7 @@
 
 <script lang="ts">
   import { defineComponent } from 'vue';
-  import axios from "axios";
+  import axios from 'axios';
 
   export default defineComponent({
     data(){
@@ -54,16 +54,26 @@
       saveLink() {
         localStorage.setItem("savedlink", this.link);
         this.savedlink = this.link;
-        
-        axios.post("http://localhost:5000/generator/generate", {
-          params: {
-            language: this.text_language,
-            video_url: this.savedlink,
-            text_type: this.text_type
-          }
-        }).then((response) => {
+
+        const data = {
+          language: 'english',
+          video_url: this.savedlink,
+          text_type: 'summary'
+        };
+
+        const options = {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          data: data,
+          url: "http://127.0.0.1:5000/api/v1/generator/generate"
+        };
+
+        axios(options)
+        .then((response) => {
+          console.log(response.data.text);
           this.output = response.data.text;
-        }).catch((error) => {
+        })
+        .catch((error) => {
           alert("Error: " + error);
         })
 

@@ -48,14 +48,18 @@ def generate_response_gpt35(text_type, transcript, language):
 
 @generator.post('/generate')
 def generate():
-
+    print("Generating text...")
     text_type = request.json['text_type']
     video_url = request.json['video_url']
     language = request.json['language']
 
+    print(text_type, video_url, language)
+
     video_id = get_video_id(video_url)
     transcript = transcribe_video(video_id)
     response = generate_response_gpt35(text_type, transcript, language)
+
+    print(response.choices[0].message.content)
 
     return jsonify({
         'video_url': video_url,
