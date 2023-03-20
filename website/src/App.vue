@@ -36,179 +36,18 @@
         alt="profileIcon"
       />
       <div id="dropdown" class="dropdown-content">
-        <a>signed in as: {{ profilename }}</a>
+        <a id="top_dropdown">signed in as: {{ profilename }}</a>
         <!-- profilname aus einer Datenbank bzw Variable -->
         <a href="#">Your Profile</a>
         <a href="#">Lorem ipsum</a>
-        <a href="#" @click="showButton('login_button')">Loggout</a>
+        <a id="bottom_dropdown" href="#" @click="showButton('login_button')">Loggout</a>
         <!-- Loggout Button mit function Loggout -->
       </div>
     </div>
   </div>
 </template>
-
-<style>
-/* 
-Hintergrundfarbe für die Webseite
-*/
-body {
-  background-color: #0f0f0f;
-  background-image: linear-gradient(135deg, Black 30%, rgba(84, 175, 232, 0.5));
-  background-size: 150%;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-}
-
-/*
-Dropdwon klasse als inline-block
-*/
-.dropdown {
-  display: inline-block;
-}
-
-/*
-Dropdownmenü hidden setzen sowie position, sichtbarkeit und größe
-*/
-.dropdown-content {
-  display: none;
-  position: absolute;
-  right: 0px;
-  top: 69px;
-  float: right;
-  background-color: #f1f1f1;
-  min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-  z-index: 1;
-}
-
-/*
-Dropdown links anpassen
-*/
-.dropdown-content a {
-  color: black;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-}
-
-/*
-Wenn ein link vom Dropdown gehover wird ändert sich die Farbe
-*/
-.dropdown-content a:hover {
-  background-color: #ddd;
-}
-
-/*
-Wenn man über das Icon hovered wird das Dropdownmenü angezeigt
-*/
-.dropdown:hover .dropdown-content {
-  display: block;
-}
-
-/*
-Klasse hidden macht etwas unsichtbar und nicht mehr interagierbar
-*/
-.hidden {
-  display: none;
-  pointer-events: none;
-}
-
-/*
-Der login button rechts oben in der navbar
-*/
-button.navbar_login {
-  background-color: white;
-  color: black;
-  float: right;
-  border-radius: 15%;
-  padding: 10px 30px;
-  text-align: center;
-  text-decoration: none;
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-}
-
-/*
-Das Logo Links oben in der Navbar
-*/
-h2.brainscribe_logo {
-  margin-top: 25px;
-  margin-left: 25px;
-  font-size: 35px;
-  text-align: left;
-  float: left;
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-}
-
-/*
-Amount von den verfügbaren Tokens Rechts oben wenn Loggedin
-*/
-.tokenProfile h2 {
-  position: absolute;
-  padding-top: 0px;
-  margin: 0px;
-  right: 80px;
-  top: 30px;
-  font-size: 20px;
-  text-align: right;
-  float: right;
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-}
-
-/*
-Profile icon rechts oben in Navbar
-*/
-.tokenProfile img {
-  position: absolute;
-  padding-top: 0px;
-  margin: 0px;
-  right: 25px;
-  top: 20px;
-  float: right;
-  width: 50px;
-}
-
-/*
-Grund werte für die schrift der webseite
-*/
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #ffffff;
-}
-
-/*
-Die Navbar
-*/
-nav {
-  padding: 25px;
-  margin-left: 20%;
-  position: relative;
-  left: 5px;
-  font-size: 30px;
-  text-align: left;
-}
-
-/*
-Navbar links
-*/
-nav a {
-  font-weight: bold;
-  color: #ffffff;
-  text-decoration: none;
-  margin-left: 20px;
-}
-
-/*
-Die aktuelle Unterseite hervorheben
-*/
-nav a.router-link-exact-active {
-  color: #ffffff;
-  text-decoration-line: underline;
-  text-decoration-thickness: 3px;
-}
-</style>
+<!-- Import des Stylesheets App.css -->
+<style src="../css/App.css"></style>
 
 <script lang="ts">
 import { defineComponent } from "vue";

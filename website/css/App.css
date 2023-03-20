@@ -1,0 +1,188 @@
+/* 
+Hintergrundfarbe für die Webseite
+*/
+body {
+    background-color: #0f0f0f;
+    background-image: linear-gradient(135deg, Black 30%, rgba(84, 175, 232, 0.5));
+    background-size: 150%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+  }
+  
+  #top_dropdown {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom: 2px solid #FFFFFF;
+  }
+
+  #bottom_dropdown {
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-top: 2px solid #FFFFFF;
+  }
+
+  /*
+  Dropdwon klasse als inline-block
+  */
+  .dropdown {
+    display: inline-block;
+  }
+  
+  /*
+  Dropdownmenü hidden setzen sowie position, sichtbarkeit und größe
+  */
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    right: 25px;
+    top: 84px;
+    float: right;
+    background-color: #314652;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    border-radius: 10px;
+    border-color: white;
+    border: 2px solid #FFFFFF;
+  }
+  
+  /*
+  Dropdown links anpassen
+  */
+  .dropdown-content a {
+    color: white;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+  
+  /*
+  Wenn ein link vom Dropdown gehover wird ändert sich die Farbe
+  */
+  .dropdown-content a:hover {
+    background-color: rgba(84, 175, 232, 0.5);
+  }
+  
+  /*
+  Wenn man über das Icon hovered wird das Dropdownmenü angezeigt
+  */
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+  
+  /*
+  Klasse hidden macht etwas unsichtbar und nicht mehr interagierbar
+  */
+  .hidden {
+    display: none;
+    pointer-events: none;
+  }
+  
+  /*
+  Der login button rechts oben in der navbar
+  */
+  button.navbar_login {
+    background-color: white;
+    color: black;
+    float: right;
+    border-radius: 15%;
+    padding: 10px 30px;
+    text-align: center;
+    text-decoration: none;
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    position: absolute;
+    right: 20px;
+  }
+  
+  /*
+  Das Logo Links oben in der Navbar
+  */
+  h2.brainscribe_logo {
+    margin-top: 25px;
+    margin-left: 25px;
+    font-size: 50px;
+    text-align: left;
+    float: left;
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    position: absolute;
+  }
+  
+  /*
+  Amount von den verfügbaren Tokens Rechts oben wenn Loggedin
+  */
+  .tokenProfile h2 {
+    position: absolute;
+    padding-top: 0px;
+    margin: 0px;
+    right: 120px;
+    top: 40px;
+    font-size: 20px;
+    text-align: right;
+    float: right;
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+  }
+  
+  /*
+  Profile icon rechts oben in Navbar
+  */
+  .tokenProfile img {
+    position: absolute;
+    padding-top: 0px;
+    margin: 0px;
+    right: 25px;
+    top: 25px;
+    float: right;
+    width: 60px;
+  }
+  
+  /*
+  Grund werte für die schrift der webseite
+  */
+  #app {
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #ffffff;
+  }
+  
+  /*
+  Die Navbar
+  */
+  nav {
+    padding: 25px;
+    padding-top: 40px;
+    position: relative;
+    font-size: 30px;
+    text-align: center;
+  }
+  
+  /*
+  Navbar links
+  */
+  nav a { 
+    font-weight: bold;
+    color: #ffffff;
+    text-decoration: none;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+  
+  /*
+  Die aktuelle Unterseite hervorheben
+  */
+  nav a.router-link-exact-active {
+    color: #ffffff;
+    position:relative;
+  }
+
+  nav a.router-link-exact-active::after {
+    content:"";
+    position:absolute;
+    height:3px;
+    width:30px;
+    background-color: currentColor;
+    border-radius: 1.5px;
+    left:calc(50% - 15px);
+    bottom:-0.25em;
+  }
